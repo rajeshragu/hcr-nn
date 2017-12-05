@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Request, Response, Headers, RequestOptionsArgs, RequestMethod } from "@angular/http";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RequestArgs } from "@angular/http/src/interfaces";
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -10,7 +10,6 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class HttpServices {
-    protected headers: Headers;
     private servUrl = environment.apiURL;
 
     constructor(private _http: HttpClient) {}
@@ -22,7 +21,7 @@ export class HttpServices {
     }
 
     post(url: string, data: any, args?: RequestOptionsArgs): Observable<any> {
-        return this._http.post(this.servUrl + url, data)
+        return this._http.post(this.servUrl + url, JSON.stringify(data))
             .map((resp: Response) => resp)
             .catch(this.handleError);
     }

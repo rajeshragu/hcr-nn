@@ -30,7 +30,8 @@ export class AppComponent {
   ngOnInit(){}
 
   public sendData(){
-    this.httpServices.post('hcr', this.inputData.toString()).subscribe((resp) => {
+    let inputData = {'inputData': this.inputData};
+    this.httpServices.post('hcr', inputData).subscribe((resp) => {
       console.log('resp', resp);
     },
     error => {

@@ -5,7 +5,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from './app.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpServices } from './services/http.services';
+import { GithubAuthInterceptor } from './services/http.interceptor';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,14 @@ import { HttpServices } from './services/http.services';
     NgbModule.forRoot(),
     HttpClientModule
   ],
-  providers: [HttpServices],
+  providers: [
+    HttpServices,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: GithubAuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

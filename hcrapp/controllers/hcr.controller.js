@@ -9,9 +9,16 @@ exports.generateOutput = async function(req, res, next){
     var inputData = req.body.inputData;
     try{        
         // Calling the Service function with the new object from the Request Body    
-        var outputData = await HCRService.generateOutput(inputData);
-        //var outputData = 'A';
-        return res.status(201).json({status: 201, data: outputData, message: "Succesfully Generate Output."})
+        //var outputData = await HCRService.generateOutput(inputData);
+        var outputData = 'A';
+        return res.status(201).json(
+            {
+                status: 201, 
+                data: outputData,
+                reqData: req.body,
+                message: "Successfully Generate Output."
+            }
+        )
     }catch(e){        
         //Return an Error Response Message with Code and the Error Message.        
         return res.status(400).json(
