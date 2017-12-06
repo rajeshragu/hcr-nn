@@ -21,7 +21,7 @@ export class HttpServices {
     }
 
     post(url: string, data: any, args?: RequestOptionsArgs): Observable<any> {
-        return this._http.post(this.servUrl + url, JSON.stringify(data))
+        return this._http.post(this.servUrl + url, data)
             .map((resp: Response) => resp)
             .catch(this.handleError);
     }

@@ -25,14 +25,15 @@ export class AppComponent {
   ];
 
   public inputData: Array<number> = [];
+  public outputData: Array<string> = [];
 
   constructor(private httpServices: HttpServices){}
   ngOnInit(){}
 
-  public sendData(){
-    let inputData = {'inputData': this.inputData};
-    this.httpServices.post('hcr', inputData).subscribe((resp) => {
+  public sendData(){    
+    this.httpServices.post('hcr', {'inputData': this.inputData.toString()}).subscribe((resp) => {
       console.log('resp', resp);
+      this.outputData = resp.data;
     },
     error => {
         console.log('http error', error);

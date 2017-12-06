@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/observable';
 export class GithubAuthInterceptor implements HttpInterceptor {
   intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const authReq = req.clone({
-      headers: req.headers.set('Content-Type', 'application/x-www-form-urlencoded')
+      //headers: req.headers.set('Content-Type', 'application/x-www-form-urlencoded')
     });
     return next.handle(authReq);
   }
