@@ -15,7 +15,7 @@ exports.generateOutput = async function(req, res, next){
             {
                 status: 201, 
                 data: outputData,
-                message: "Successfully Generated Output."
+                message: "Successfully generated output."
             }
         )
     }catch(e){        
