@@ -7,7 +7,6 @@ import { HttpServices } from './services/http.services';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
 
   public inputDataArr: Array<any> = [
     {
@@ -26,6 +25,8 @@ export class AppComponent {
 
   public inputData: Array<number> = [];
   public outputData: Array<string> = [];
+  public filesToUpload: Array<File> = [];
+  public fileUploadArray: Array<any> = [];
 
   constructor(private httpServices: HttpServices){}
   ngOnInit(){}
@@ -38,5 +39,29 @@ export class AppComponent {
     error => {
         console.log('http error', error);
     });
+  }
+
+  public upload() {
+    const files: Array<File> = this.filesToUpload;
+    this.httpServices.upload('hcr/upload', files).subscribe((files) => {
+      console.log('files', files);
+    },
+    error => {
+        console.log('http error', error);
+    });
+  }
+
+  public fileChangeEvent(fileInput: any) {
+    this.filesToUpload = <Array<File>>fileInput.target.files;
+    this.fileUploadArray = [];
+    for(let i=0; i<this.filesToUpload.length; i++){
+      let file = this.filesToUpload[i];
+      var myReader:FileReader = new FileReader();
+      myReader.readAsDataURL(file);
+      myReader.onloadend = (e) => {
+        var previewPic:any = e.target;
+        this.fileUploadArray.push(previewPic.result);
+      };
+    }    
   }
 }

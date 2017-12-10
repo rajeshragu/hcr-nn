@@ -38,6 +38,16 @@ export class HttpServices {
             .catch(this.handleError);
     }
 
+    upload(url: string, files?: any, args?: RequestOptionsArgs){
+        const formData: any = new FormData();
+        for(let i=0; i < files.length; i++){
+            formData.append("uploads[]", files[i], files[i]['name']);
+        }
+        return this._http.post(this.servUrl + url, formData)
+        .map(files => files)
+        .catch(this.handleError);
+    }
+
     private static json(res: Response): any {
         return res.text() === "" ? res : res.json();
     }

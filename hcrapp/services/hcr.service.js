@@ -73,3 +73,7 @@ exports.generateOutput = async function(inputData){
     }
     
 }
+
+exports.uploadFiles = async function(files){
+    console.log('--Backend files--', files);
+}    

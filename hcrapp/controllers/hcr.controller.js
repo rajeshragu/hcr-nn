@@ -28,3 +28,13 @@ exports.generateOutput = async function(req, res, next){
         )
     }
 }
+
+exports.uploadFiles = async function(req, res, next){
+    return res.status(201).json(
+        {
+            status: 201,
+            files: req.files,
+            message: "Successfully uploaded files."
+        }
+    )
+}
