@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpServices } from './services/http.services';
+import { ITrainingData } from './models/trainingData';
 
 @Component({
   selector: 'app-root',
@@ -27,11 +28,13 @@ export class AppComponent {
   public outputData: Array<string> = [];
   public filesToUpload: Array<File> = [];
   public fileUploadArray: Array<any> = [];
+  public fileNameArray: Array<string> = [];
+  public dataSet: Array<string> = [];
 
   constructor(private httpServices: HttpServices){}
   ngOnInit(){}
 
-  public sendData(){    
+  public sendData(){
     this.httpServices.post('hcr', {'inputData': this.inputData.toString()}).subscribe((resp) => {
       console.log('resp', resp);
       this.outputData = resp.data;
@@ -54,8 +57,10 @@ export class AppComponent {
   public fileChangeEvent(fileInput: any) {
     this.filesToUpload = <Array<File>>fileInput.target.files;
     this.fileUploadArray = [];
+
     for(let i=0; i<this.filesToUpload.length; i++){
-      let file = this.filesToUpload[i];
+      var file = this.filesToUpload[i];
+      this.fileNameArray.push(file.name);
       var myReader:FileReader = new FileReader();
       myReader.readAsDataURL(file);
       myReader.onloadend = (e) => {

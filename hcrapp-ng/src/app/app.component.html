@@ -62,8 +62,9 @@
   <div class="row">
     <div class="col-md-12 col-sm-12 text-center mt-5">
       <div class="row">
-          <div class="col-md-2" *ngFor="let file of fileUploadArray">
-            <img src="{{file}}" class="img-responsive img-thumbnail" />
+          <div class="col-md-2" *ngFor="let file of fileUploadArray; let i=index;">
+            <img src="{{file}}" class="img-responsive img-thumbnail" /> <br />
+            <input type="checkbox" value="{{fileNameArray[i]}}" name="character_{{i}}" id="character_{{i}}">
           </div>
       </div>
     </div>
