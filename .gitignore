@@ -5,8 +5,8 @@ yarn-error.log
 /out-tsc
 
 # dependencies
-/hcrapp/node_modules
-/hcrapp-ng/node_modules
+*/node_modules
+/hcrapp/public/uploads/node_modules
 
 # IDEs and editors
 /.idea
