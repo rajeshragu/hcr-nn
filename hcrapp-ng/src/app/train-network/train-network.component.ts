@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpServices } from '../services/http.services';
-import { ITrainingData } from '../models/trainingData';
+import { TrainingModel } from '../models/trainingModel';
 
 @Component({
   selector: 'app-train-network',
@@ -13,7 +13,10 @@ export class TrainNetworkComponent implements OnInit {
   public fileNameArray: Array<any> = [];
   public dataSet: Array<string> = [];
   public IsUploaded:boolean = true;
-
+  public IsDataSelected:boolean = true;
+  public trainingData = new TrainingModel([], '');
+  public targetCharArr = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+  
   constructor(private httpServices: HttpServices){}  
 
   ngOnInit() {} 
@@ -46,5 +49,25 @@ export class TrainNetworkComponent implements OnInit {
         this.fileUploadArray.push(previewPic.result);
       };
     }    
+  }
+
+  public chooseTarget(){
+    for(let fileName of this.fileNameArray){
+      if(fileName.checked){
+        this.trainingData.DataSet.push(fileName.name);
+      }
+    }
+    if(this.trainingData.DataSet.length>0)
+      this.IsDataSelected = false;
+  }
+
+  public trainNetwork(){
+    console.log(this.trainingData);
+    this.httpServices.post('hcr/train-network', this.trainingData).subscribe((resp) => {
+      console.log('--resp--', resp);
+    },
+    error => {
+        console.log('http error', error);
+    });
   }
 }
