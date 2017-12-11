@@ -10,7 +10,7 @@
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="#">Train Network</a>
+        <a class="nav-link" routerLink='/train'>Train Network</a>
       </li>
       <!--li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
@@ -49,25 +49,5 @@
       <h1>{{outputData}}</h1>
     </div>
   </div-->
-
-  <div class="row">
-    <div class="col-md-12 col-sm-12 text-center mt-5">
-      <form enctype="multipart/form-data">
-        <input id="cin" name="cin" type="file" (change)="fileChangeEvent($event)" placeholder="Upload a file..." multiple/>
-        <button type="button" class="btn btn-success btn-s" (click)="upload()">Upload</button>
-      </form>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-12 col-sm-12 text-center mt-5">
-      <div class="row">
-          <div class="col-md-2" *ngFor="let file of fileUploadArray; let i=index;">
-            <img src="{{file}}" class="img-responsive img-thumbnail" /> <br />
-            <input type="checkbox" value="{{fileNameArray[i]}}" name="character_{{i}}" id="character_{{i}}">
-          </div>
-      </div>
-    </div>
-  </div>
-
+  <router-outlet></router-outlet>
 </div><!-- /.container -->

@@ -1,3 +1,49 @@
-<p>
-  train-network works!
-</p>
+<div class="row">
+  <div class="col-md-12 col-sm-12 text-center mt-5">
+    <form enctype="multipart/form-data">
+      <input id="cin" name="cin" type="file" (change)="fileChangeEvent($event)" placeholder="Upload a file..." multiple/>
+      <button type="button" class="btn btn-success btn-s" (click)="upload()">Upload</button>
+    </form>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 text-center mt-5">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-header">
+            Datasets
+          </div>
+          <div class="card-body">
+            <div class="row">
+                <div class="col-md-2 mt-2 ml-2" *ngFor="let file of fileUploadArray; let i=index;">
+                  <img src="{{file}}" class="img-responsive img-thumbnail" />
+                  <div class="checkbox">
+                    <div class="checkbox checkbox-primary">
+                      <label class="custom-control custom-checkbox ml-3">
+                          <input type="checkbox" class="custom-control-input" [(ngModel)]="fileNameArray[i]['checked']" value="{{fileNameArray[i]['name']}}" name="character_{{i}}" id="character_{{i}}">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">&nbsp;</div>
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-header">
+            Target Character
+          </div>
+          <div class="card-body">
+            A,B,C
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
