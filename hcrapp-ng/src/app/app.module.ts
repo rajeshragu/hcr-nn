@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from "@angular/common/http";
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpServices } from './services/http.services';
@@ -16,6 +17,7 @@ import { GithubAuthInterceptor } from './services/http.interceptor';
   imports: [
     BrowserModule,
     FormsModule,
+    AppRoutingModule,
     NgbModule.forRoot(),
     HttpClientModule
   ],
