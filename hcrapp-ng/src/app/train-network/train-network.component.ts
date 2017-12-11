@@ -12,6 +12,7 @@ export class TrainNetworkComponent implements OnInit {
   public fileUploadArray: Array<any> = [];
   public fileNameArray: Array<any> = [];
   public dataSet: Array<string> = [];
+  public IsUploaded:boolean = true;
 
   constructor(private httpServices: HttpServices){}  
 
@@ -21,9 +22,11 @@ export class TrainNetworkComponent implements OnInit {
     const files: Array<File> = this.filesToUpload;
     this.httpServices.upload('hcr/upload', files).subscribe((files) => {
       console.log('files', files);
+      this.IsUploaded = false;
     },
     error => {
         console.log('http error', error);
+        this.IsUploaded = true;
     });
   }
 
