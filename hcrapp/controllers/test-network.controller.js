@@ -11,6 +11,7 @@ exports.testNetwork = async function(req, res, next){
         // Calling the Service function with the new object from the Request Body    
         var outputStatus = await TestNetworkService.testNetwork(testData);
         //var outputStatus = 'A';
+        console.log('--outputStatus from controller--', outputStatus);
         return res.status(201).json(
             {
                 status: 201,

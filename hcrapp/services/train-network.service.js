@@ -17,7 +17,8 @@ var NETWORK_OUTPUT_LAYERS = 5;
 var NETWORK_ITERATION = 2000;
 var NETWORK_LEARNING_RATE = .3;
 var OUTPUT_DATA = {
-  'A': [0,0,0,0,0]
+  'A': [0,0,0,0,0],
+  'B': [0,0,0,0,1]
 };
 
 // Saving the context of this module inside the _the variable
@@ -70,13 +71,18 @@ exports.trainNetwork = async function(trainingData){
         }
       }
       var exported = myNetwork.toJSON();
-      fs.writeFile(IMG_UPLOAD_PATH+'myNetwork.json', JSON.stringify(exported), networkExportCB);
+      //fs.writeFile(IMG_UPLOAD_PATH+'myNetwork.json', JSON.stringify(exported), networkExportCB);
+      console.log("Going to open an network file");
+      fs.open(IMG_UPLOAD_PATH+'myNetwork.json', 'a+', function(err, fd) {
+         if (err) {
+            return console.error(err);
+         }
+         console.log("File opened successfully!");
+         console.log("Going to append the file");
+         fs.appendFileSync(fd, JSON.stringify(exported));
+      });
       return 'Network trained successfully!';
     }
-  }
-
-  function networkExportCB(){
-    console.log('Network Exported!!');
   }
 
   function processBW(i) {

@@ -12,7 +12,8 @@ var IMG_CHARARR_STAGE_2 = [];
 var IMG_CHARARR_STAGE_3 = [];
 var NETWORK_ARRAY = [];
 var OUTPUT_DATA = {
-  'A': [0,0,0,0,0]
+  'A': [0,0,0,0,0],
+  'B': [0,0,0,0,1]
 };
 
 // Saving the context of this module inside the _the variable
@@ -22,9 +23,10 @@ exports.testNetwork = async function(testData){
     console.log('--DataSet--', testData.DataSet);
     if(testData.DataSet.length>0){
       NETWORK_ARRAY = [];
-      readFileAndInitiate(IMG_INDEX);
+      let outputStatus = await readFileAndInitiate(IMG_INDEX);
+      console.log('--outputStatus from service--', outputStatus);
+      return(outputStatus);
     }
-    return 'Success';
   }catch(e){
     // return a Error message describing the reason
     throw Error("Error while training the network in service.")
@@ -68,9 +70,8 @@ exports.testNetwork = async function(testData){
       for(index of resultIndexArray){
           resultArray.push(outputArr[index]);
       }
-
       console.log(resultArray);
-      return 'Network tested successfully!';
+      return resultArray;
     }
   }
 
