@@ -4,6 +4,7 @@ var router = express.Router();
 // Getting the Todo Controller that we just created
 var HCRController = require('../../controllers/hcr.controller');
 var TrainNetworkController = require('../../controllers/train-network.controller');
+var TestNetworkController = require('../../controllers/test-network.controller');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -20,6 +21,7 @@ var upload = multer({ storage: storage });
 router.post('/', HCRController.generateOutput);
 router.post("/upload", upload.array("uploads[]", 12), HCRController.uploadFiles);
 router.post("/train-network", TrainNetworkController.trainNetwork);
+router.post("/test-network", TestNetworkController.testNetwork);
 
 // Export the Router
 module.exports = router;

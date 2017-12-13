@@ -11,23 +11,16 @@ var IMG_CHARARR_STAGE_1 = '';
 var IMG_CHARARR_STAGE_2 = [];
 var IMG_CHARARR_STAGE_3 = [];
 var NETWORK_ARRAY = [];
-var NETWORK_INPUT_LAYERS = IMG_SIZE * IMG_SIZE; // IMG_SIZE^2
-var NETWORK_HIDDEN_LAYERS = 5;
-var NETWORK_OUTPUT_LAYERS = 5;
-var NETWORK_ITERATION = 2000;
-var NETWORK_LEARNING_RATE = .3;
 var OUTPUT_DATA = {
   'A': [0,0,0,0,0]
 };
 
 // Saving the context of this module inside the _the variable
 _this = this;
-exports.trainNetwork = async function(trainingData){
+exports.testNetwork = async function(testData){
   try{
-    console.log('--DataSet--', trainingData.DataSet);    
-    console.log('--TargetCharacter--', trainingData.TargetCharacter);
-    console.log('--Output--', OUTPUT_DATA[trainingData.TargetCharacter]);
-    if(trainingData.DataSet.length>0){
+    console.log('--DataSet--', testData.DataSet);
+    if(testData.DataSet.length>0){
       NETWORK_ARRAY = [];
       readFileAndInitiate(IMG_INDEX);
     }
@@ -38,9 +31,9 @@ exports.trainNetwork = async function(trainingData){
   }
 
   function readFileAndInitiate(i){
-    if(i<trainingData.DataSet.length){
-      IMG_SRC = IMG_UPLOAD_PATH + trainingData.DataSet[i];
-      IMG_DEST = IMG_UPLOAD_PATH + 'BW_' + trainingData.DataSet[i];
+    if(i<testData.DataSet.length){
+      IMG_SRC = IMG_UPLOAD_PATH + testData.DataSet[i];
+      IMG_DEST = IMG_UPLOAD_PATH + 'BW_' + testData.DataSet[i];
       Jimp.read(IMG_SRC).then(function (image) {
         image.resize(IMG_SIZE, IMG_SIZE).greyscale().write(IMG_DEST, processBW, i)
       }).catch(function (err) {
@@ -48,35 +41,37 @@ exports.trainNetwork = async function(trainingData){
       });
     }
     else{
-      // create the network
-      var Layer = synaptic.Layer;
       var Network = synaptic.Network;
-      var inputLayer = new Layer(NETWORK_INPUT_LAYERS);
-      var hiddenLayer = new Layer(NETWORK_HIDDEN_LAYERS);
-      var outputLayer = new Layer(NETWORK_OUTPUT_LAYERS);
-      inputLayer.project(hiddenLayer);
-      hiddenLayer.project(outputLayer);
-      var myNetwork = new Network({
-          input: inputLayer,
-          hidden: [hiddenLayer],
-          output: outputLayer
-      });
-      // train the network
-      var learningRate = NETWORK_LEARNING_RATE;
-      for(var i=0; i<NETWORK_ARRAY.length; i++){
-        for (var j=0; j<NETWORK_ITERATION; j++){
-          myNetwork.activate(NETWORK_ARRAY[i]);
-          myNetwork.propagate(learningRate, OUTPUT_DATA[trainingData.TargetCharacter]);
-        }
+      var json = JSON.parse(fs.readFileSync(IMG_UPLOAD_PATH+'myNetwork.json'));
+      var imported = Network.fromJSON(json);
+      var resultRawArr = [];
+      var resultIntArr = [];
+      var resultIndexArray = [];
+      var outputArr = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+      var resultArray = [];
+      resultRawArr.push(imported.activate(NETWORK_ARRAY[0]));
+      console.log('--Raw Output--', resultRawArr);        
+      // formatting the output
+      for(let result of resultRawArr){
+          resultIntArr.push(result.map(function (x) { 
+          return Math.round(x); 
+          }));
       }
-      var exported = myNetwork.toJSON();
-      fs.writeFile(IMG_UPLOAD_PATH+'myNetwork.json', JSON.stringify(exported), networkExportCB);
-      return 'Network trained successfully!';
-    }
-  }
+      console.log('--Output in 0,1 Array--', resultIntArr);
+      // merging array elements and getting indexes
+      for(let result of resultIntArr){
+          resultIndexArray.push(parseInt(result.join(''), 2));
+      }
+      console.log('--Output with indexes--', resultIndexArray);
+      // final output
+      console.log('--Final Output--')
+      for(index of resultIndexArray){
+          resultArray.push(outputArr[index]);
+      }
 
-  function networkExportCB(){
-    console.log('Network Exported!!');
+      console.log(resultArray);
+      return 'Network tested successfully!';
+    }
   }
 
   function processBW(i) {
