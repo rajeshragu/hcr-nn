@@ -2,7 +2,7 @@ var synaptic = require('synaptic');
 var Jimp = require("jimp");
 var fs = require('fs');
 
-var IMG_SIZE = 15;
+var IMG_SIZE = 12;
 var IMG_UPLOAD_PATH = 'public/uploads/';
 var IMG_SRC = '';
 var IMG_DEST = '';
@@ -24,7 +24,8 @@ var OUTPUT_DATA = {
 _this = this;
 exports.trainNetwork = async function(trainingData){
   try{
-    console.log('--TargetCharacter--', TargetCharacter);
+    console.log('--DataSet--', trainingData.DataSet);    
+    console.log('--TargetCharacter--', trainingData.TargetCharacter);
     console.log('--Output--', OUTPUT_DATA[trainingData.TargetCharacter]);
     if(trainingData.DataSet.length>0){
       NETWORK_ARRAY = [];
@@ -46,7 +47,8 @@ exports.trainNetwork = async function(trainingData){
         console.error(err);
       });
     }
-    else{
+    else{      
+      console.log('Reached Here.');
       // create the network
       var Layer = synaptic.Layer;
       var Network = synaptic.Network;
@@ -69,7 +71,8 @@ exports.trainNetwork = async function(trainingData){
         }
       }
       var exported = myNetwork.toJSON();
-      /*fs.writeFile(IMG_UPLOAD_PATH+'myNetwork.json', JSON.stringify(exported), networkExportCB);*/
+      fs.writeFile(IMG_UPLOAD_PATH+'myNetwork.json', JSON.stringify(exported), networkExportCB);
+      return 'Network trained successfully!';
     }
   }
 

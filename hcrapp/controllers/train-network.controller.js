@@ -10,7 +10,7 @@ exports.trainNetwork = async function(req, res, next){
     try{        
         // Calling the Service function with the new object from the Request Body    
         var outputStatus = await TrainNetworkService.trainNetwork(trainingData);
-        //var outputData = 'A';
+        //var outputStatus = 'A';
         return res.status(201).json(
             {
                 status: 201,
@@ -22,7 +22,8 @@ exports.trainNetwork = async function(req, res, next){
         //Return an Error Response Message with Code and the Error Message.        
         return res.status(400).json(
             {
-                status: 400, 
+                status: 400,                
+                status: outputStatus,
                 message: "Error while training the network in controller."
             }
         )
