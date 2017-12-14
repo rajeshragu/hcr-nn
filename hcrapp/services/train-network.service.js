@@ -64,9 +64,9 @@ exports.trainNetwork = async function(trainingData){
       });
       // train the network
       var learningRate = NETWORK_LEARNING_RATE;
-      for(var i=0; i<NETWORK_ARRAY.length; i++){
-        for (var j=0; j<NETWORK_ITERATION; j++){
-          myNetwork.activate(NETWORK_ARRAY[i]);
+      for(var i=0; i<NETWORK_ITERATION; i++){
+        for (var j=0; j<NETWORK_ARRAY.length; j++){
+          myNetwork.activate(NETWORK_ARRAY[j]);
           myNetwork.propagate(learningRate, OUTPUT_DATA[trainingData.TargetCharacter]);
         }
       }
