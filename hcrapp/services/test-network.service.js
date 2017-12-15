@@ -51,7 +51,8 @@ exports.testNetwork = async function(testData){
       var resultIndexArray = [];
       var outputArr = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
       var resultArray = [];
-      resultRawArr.push(imported.activate(NETWORK_ARRAY[0]));
+      resultRawArr.push(imported.activate(NETWORK_ARRAY[0]));      
+      console.log('--In here 3--', resultRawArr);
       console.log('--Raw Output--', resultRawArr);        
       // formatting the output
       for(let result of resultRawArr){

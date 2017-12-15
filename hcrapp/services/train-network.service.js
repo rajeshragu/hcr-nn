@@ -52,16 +52,25 @@ exports.trainNetwork = async function(trainingData){
       // create the network
       var Layer = synaptic.Layer;
       var Network = synaptic.Network;
-      var inputLayer = new Layer(NETWORK_INPUT_LAYERS);
-      var hiddenLayer = new Layer(NETWORK_HIDDEN_LAYERS);
-      var outputLayer = new Layer(NETWORK_OUTPUT_LAYERS);
-      inputLayer.project(hiddenLayer);
-      hiddenLayer.project(outputLayer);
-      var myNetwork = new Network({
-          input: inputLayer,
-          hidden: [hiddenLayer],
-          output: outputLayer
-      });
+      var inputLayer, hiddenLayer, outputLayer, myNetwork
+
+      if (!fs.existsSync(IMG_UPLOAD_PATH+'myNetwork.json')) {
+        inputLayer = new Layer(NETWORK_INPUT_LAYERS);
+        hiddenLayer = new Layer(NETWORK_HIDDEN_LAYERS);
+        outputLayer = new Layer(NETWORK_OUTPUT_LAYERS);
+        inputLayer.project(hiddenLayer);
+        hiddenLayer.project(outputLayer);
+        myNetwork = new Network({
+            input: inputLayer,
+            hidden: [hiddenLayer],
+            output: outputLayer
+        });
+      }
+      else{
+        let json = JSON.parse(fs.readFileSync(IMG_UPLOAD_PATH+'myNetwork.json'));
+        myNetwork = Network.fromJSON(json);
+      }
+
       // train the network
       var learningRate = NETWORK_LEARNING_RATE;
       for(var i=0; i<NETWORK_ITERATION; i++){
@@ -71,16 +80,7 @@ exports.trainNetwork = async function(trainingData){
         }
       }
       var exported = myNetwork.toJSON();
-      //fs.writeFile(IMG_UPLOAD_PATH+'myNetwork.json', JSON.stringify(exported), networkExportCB);
-      console.log("Going to open an network file");
-      fs.open(IMG_UPLOAD_PATH+'myNetwork.json', 'a+', function(err, fd) {
-         if (err) {
-            return console.error(err);
-         }
-         console.log("File opened successfully!");
-         console.log("Going to append the file");
-         fs.appendFileSync(fd, JSON.stringify(exported));
-      });
+      fs.writeFileSync(IMG_UPLOAD_PATH+'myNetwork.json', JSON.stringify(exported));      
       return 'Network trained successfully!';
     }
   }
