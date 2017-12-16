@@ -27,12 +27,14 @@ for(var i=0; i<2000; i++){
 }
 var exported = myNetwork.toJSON();
 console.log("Going to open an network file");
-fs.open('output.json', 'a+', function(err, fd) {
+fs.open('output.json', 'w+', function(err, fd) {
    if (err) {
       return console.error(err);
    }
    console.log("File opened successfully!");
    console.log("Going to append the file");
-   fs.appendFileSync(fd, JSON.stringify(exported));
-   console.log(myNetwork.activate([1,1]));
+   fs.writeFileSync(fd, JSON.stringify(exported));
+   var json = JSON.parse(fs.readFileSync('output.json'));
+   var imported = Network.fromJSON(json);
+   console.log(imported.activate([1,0]));
 });

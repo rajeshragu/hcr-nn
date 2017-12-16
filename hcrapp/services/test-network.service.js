@@ -46,13 +46,14 @@ exports.testNetwork = async function(testData){
       var Network = synaptic.Network;
       var json = JSON.parse(fs.readFileSync(IMG_UPLOAD_PATH+'myNetwork.json'));
       var imported = Network.fromJSON(json);
+      var myNetwork = imported.standalone();
       var resultRawArr = [];
       var resultIntArr = [];
       var resultIndexArray = [];
       var outputArr = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
       var resultArray = [];
-      resultRawArr.push(imported.activate(NETWORK_ARRAY[0]));      
-      console.log('--In here 3--', resultRawArr);
+      console.log('--Standalone OUTPUT--', myNetwork(NETWORK_ARRAY[0]));
+      resultRawArr.push(imported.activate(NETWORK_ARRAY[0]));
       console.log('--Raw Output--', resultRawArr);        
       // formatting the output
       for(let result of resultRawArr){

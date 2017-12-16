@@ -80,7 +80,10 @@ exports.trainNetwork = async function(trainingData){
         }
       }
       var exported = myNetwork.toJSON();
-      fs.writeFileSync(IMG_UPLOAD_PATH+'myNetwork.json', JSON.stringify(exported));      
+      fs.writeFileSync(IMG_UPLOAD_PATH+'myNetwork.json', JSON.stringify(exported));
+      var json = JSON.parse(fs.readFileSync(IMG_UPLOAD_PATH+'myNetwork.json'));
+      var imported = Network.fromJSON(json);
+      console.log(imported.activate(NETWORK_ARRAY[0]));
       return 'Network trained successfully!';
     }
   }
