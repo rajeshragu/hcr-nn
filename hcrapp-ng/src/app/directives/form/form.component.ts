@@ -11,6 +11,9 @@ import { HttpServices } from '../../services/http.services';
 
 export class FormComponent implements OnInit {
   @Input() dataObject;
+  @Input() Id;
+  @Input() dataSource;
+  
   form: FormGroup;
   objectProps:any;
 
@@ -18,10 +21,10 @@ export class FormComponent implements OnInit {
 
   ngOnInit() {
     const formGroup = {};
-    formGroup['Id'] = new FormControl('Id');
+    formGroup['Id'] = new FormControl(this.Id);
     this.form = new FormGroup(formGroup);
 
-    this.httpServices.get('formElements/sendElements').subscribe((resp) => {
+    this.httpServices.get(this.dataSource).subscribe((resp) => {
       console.log('--resp--', resp);
       for(let apiData of resp.data){
         for(let key in apiData){

@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DynamicFormRoutingModule } from './dynamic-form-routing.module';
 import { DynamicFormComponent } from './dynamic-form.component';
-import { FormComponent } from './form/form.component';
+import { FormComponent } from '../directives/form/form.component';
 
 @NgModule({
   imports: [
