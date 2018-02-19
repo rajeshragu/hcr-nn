@@ -5,7 +5,8 @@ import { AppComponent } from './app.component';
 const routes: Routes = [
   { pathMatch: 'full', path: "", component: AppComponent },
   { path: 'train', loadChildren: './train-network/train-network.module#TrainNetworkModule' },
-  { path: 'test', loadChildren: './test-network/test-network.module#TestNetworkModule' }
+  { path: 'test', loadChildren: './test-network/test-network.module#TestNetworkModule' },
+  { path: 'forms', loadChildren: './dynamic-form/dynamic-form.module#DynamicFormModule' }
 ];
 
 @NgModule({
